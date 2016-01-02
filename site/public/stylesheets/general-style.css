@@ -1,0 +1,66 @@
+body {
+    font-family: Merriweather,'Helvetica Neue',Arial,sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: 'Open Sans','Helvetica Neue',Arial,sans-serif;
+}
+
+/* Pour la page intégrateur  */
+.body-offer{
+padding:0px;
+padding-top :10px;
+}
+
+.body-offer ul {
+padding:0px;
+padding-left :20px;
+}
+
+.panel-body > .features{
+padding:0px;
+margin:0px;
+}
+
+.body-offer > .button-offer{
+padding-bottom:10px;
+}
+
+.body-offer li:before {    
+font-family: 'FontAwesome';
+content: '\f00c';
+margin:0 5px 0 -15px;
+color: rgba(0,130,130,1);
+}
+	
+.body-offer button{
+	margin-top: 5px;
+	background-color: rgba(0,130,130,0.8);
+	color : white;
+		}
+
+.body-offer li {
+    list-style-type: none;
+    margin-left: 0px;
+}
+
+.text-primary {
+    color: rgba(0,130,130,1);;
+}
+
+.text-comment {
+	text-align : justify;
+	word-wrap: break-word;
+}
+
+.text-comment img {
+	width: auto;
+	max-height: 250px;
+	display: block;
+}
+

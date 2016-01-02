@@ -1,0 +1,478 @@
+<!-- CONNEXION/REGISTER PART -->
+<!-- LOGGED PART : WRITE COMMENT -->
+<div class="api" ng-controller="CommentsCtrl">
+
+	<!-- SHOW ERROR -->
+	<div class="text-danger alert" align="center" ng-if="badToken">
+		<strong>{{ badToken }}</strong>
+	</div>
+
+	<div id="topconnect" class="row survey" ng-if="!badToken" ng-cloak>
+		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+			<h4>{{ article.question }}</h4>
+
+			<div class="rating" ng-mouseleave="rate = rateInit" ng-init="rate = rateInit" ng-if="article.ratingType == 0">
+				<span ng-mouseenter="rate = 1" ng-click="rateArticle(rate)" tooltip="{{article.ratingRep.E}}"><i class="fa" ng-class="rate >= 1 ? 'fa-star' : 'fa-star-o'"></i></span>
+				<span ng-mouseenter="rate = 2" ng-click="rateArticle(rate)" tooltip="{{article.ratingRep.D}}"><i class="fa" ng-class="rate >= 2 ? 'fa-star' : 'fa-star-o'"></i></span>
+				<span ng-mouseenter="rate = 3" ng-click="rateArticle(rate)" tooltip="{{article.ratingRep.C}}"><i class="fa" ng-class="rate >= 3 ? 'fa-star' : 'fa-star-o'"></i></span>
+				<span ng-mouseenter="rate = 4" ng-click="rateArticle(rate)" tooltip="{{article.ratingRep.B}}"><i class="fa" ng-class="rate >= 4 ? 'fa-star' : 'fa-star-o'"></i></span>
+				<span ng-mouseenter="rate = 5" ng-click="rateArticle(rate)" tooltip="{{article.ratingRep.A}}"><i class="fa" ng-class="rate >= 5 ? 'fa-star' : 'fa-star-o'"></i></span>
+			</div>
+			<div class="row survey-click-web" ng-if="article.ratingType == 1">
+
+				<div class="rating-text  col-xs-2 col-sm-2 col-md-2 col-lg-2">
+					<button class="btn btn-primary button-vote" ng-click="rateArticle(1)">
+						{{ article.ratingRep.E }}
+					</button>
+					<div class="row survey-click">
+						<i ng-if="scores.total > 0" ng-cloak>{{ scores.e * 100 / scores.total | number:1 }}%</i>
+					</div>
+				</div>
+				<div class="rating-text col-xs-2 col-sm-2 col-md-2 col-lg-2">
+					<button class="btn btn-primary button-vote" ng-click="rateArticle(2)">
+						{{ article.ratingRep.D }}
+					</button>
+					<div class="row survey-click">
+						<i ng-if="scores.total > 0" ng-cloak>{{ scores.d * 100 / scores.total | number:1 }}%</i>
+					</div>
+				</div>
+				<div class="rating-text col-xs-2 col-sm-2 col-md-2 col-lg-2">
+
+					<button class="btn btn-primary button-vote" ng-click="rateArticle(3)">
+						{{ article.ratingRep.C }}
+					</button>
+					<div class="row survey-click">
+						<i ng-if="scores.total > 0" ng-cloak>{{ scores.c * 100 / scores.total | number:1 }}%</i>
+					</div>
+				</div>
+				<div class="rating-text col-xs-2 col-sm-2 col-md-2 col-lg-2">
+					<button class="btn btn-primary button-vote" ng-click="rateArticle(4)">
+						{{ article.ratingRep.B }}
+					</button>
+					<div class="row survey-click">
+						<i ng-if="scores.total > 0" ng-cloak>{{ scores.b * 100 / scores.total | number:1 }}%</i>
+					</div>
+				</div>
+				<div class="rating-text col-xs-2 col-sm-2 col-md-2 col-lg-2">
+					<button class="btn btn-primary button-vote" ng-click="rateArticle(5)">
+						{{ article.ratingRep.A }}
+					</button>
+					<div class="row survey-click">
+						<i ng-if="scores.total > 0" ng-cloak>{{ scores.a * 100 / scores.total | number:1 }}%</i>
+					</div>
+				</div>
+			</div>
+			<div class="row survey-click-mobil" ng-if="article.ratingType == 1">
+				<div class="col-xs-12">
+					<div class="row">
+						<div class="col-xs-6">
+							<button class="btn btn-primary button-vote" ng-click="rateArticle(1)">
+								{{ article.ratingRep.E }}
+							</button>
+						</div>
+						<div class="col-xs-6">
+							<div class="row survey-click">
+								<i ng-if="scores.total > 0" ng-cloak>{{ scores.e * 100 / scores.total | number:1 }}%</i>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-xs-12">
+					<div class="row">
+						<div class="col-xs-6">
+							<button class="btn btn-primary button-vote" ng-click="rateArticle(2)">
+								{{ article.ratingRep.D }}
+							</button>
+						</div>
+						<div class="col-xs-6">
+							<div class="row survey-click">
+								<i ng-if="scores.total > 0" ng-cloak>{{ scores.d * 100 / scores.total | number:1 }}%</i>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-xs-12">
+					<div class="row">
+						<div class="col-xs-6">
+							<button class="btn btn-primary button-vote" ng-click="rateArticle(3)">
+								{{ article.ratingRep.C }}
+							</button>
+						</div>
+						<div class="col-xs-6">
+							<div class="row survey-click">
+								<i ng-if="scores.total > 0" ng-cloak>{{ scores.c * 100 / scores.total | number:1 }}%</i>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-xs-12">
+					<div class="row">
+						<div class="col-xs-6">
+							<button class="btn btn-primary button-vote" ng-click="rateArticle(4)">
+								{{ article.ratingRep.B }}
+							</button>
+						</div>
+						<div class="col-xs-6">
+							<div class="row survey-click">
+								<i ng-if="scores.total > 0" ng-cloak>{{ scores.b * 100 / scores.total | number:1 }}%</i>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-xs-12">
+					<div class="row">
+						<div class="col-xs-6">
+							<button class="btn btn-primary button-vote" ng-click="rateArticle(5)">
+								{{ article.ratingRep.A }}
+							</button>
+						</div>
+						<div class="col-xs-6">
+							<div class="row survey-click">
+								<i ng-if="scores.total > 0" ng-cloak>{{ scores.a * 100 / scores.total | number:1 }}%</i>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6"></div>
+		<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6" align="right">
+			<span class="dropdown" dropdown on-toggle="toggled(open)">
+				<a class="dropdown-toggle action" dropdown-toggle ng-mouseenter="showCaret = true" ng-mouseleave="showCaret = false">
+					<h3>Votre compte <i class="fa fa-caret-down"></i></h3>
+				</a>
+				<ul class="dropdown-menu dropdown-menu-right">
+					<li ng-show="user._id">
+						<a class="action" href="/profile" target="_blank">Profil</a>
+					</li>
+					<li ng-show="user._id">
+						<a class="action" ng-click="logout()">Déconnexion</a>
+					</li>
+					<li ng-hide="user._id">
+						<a class="action" ng-click="openConnectModal()">Connexion / Créer</a>
+					</li>
+					<li>
+						<a class="action" href="/rules" target="_blank">Règles</a>
+					</li>
+					<li>
+						<a class="action" ng-click="goToId('moderate')">Modérer</a>
+					</li>
+				</ul>
+			</span>
+		</div>
+	</div>
+
+	<form ng-if="!badToken" ng-cloak>
+		<!-- WRITE-ZONE -->
+		<div class="row write-zone">
+			<div class="col-avatar col-xs-2 col-sm-1 col-md-1 col-lg-1">
+				<div class="row">
+					<div class="avatar avatar-write-noconnect ">
+						<img ng-if="!user" ng-src="/images/avatars/default.png" class="thumbnail img-responsive">
+					</div>
+					<div class="avatar img-responsive avatar-write " ng-if="user">
+						<img ng-if="user.info.avatar" ng-src="{{ user.info.avatar.link }}" class="thumbnail img-responsive">
+					</div>
+				</div>
+			</div>
+			<div class="text-write col-xs-10 col-sm-11 col-md-11 col-lg-11">
+				<div class="pseudo-write-zone row">
+					<a class="action">
+						{{ user.local.pseudo }}
+					</a>
+				</div>
+				<div class="text-comment row">
+					<div class="input-group col-xs-12 col-sm-12 col-md-12 col-lg-12">
+						<div class="form-control" ng-click="focusId('new-comment-textArea')">
+							<img class="new-comment" ng-src="{{ newComment.img }}">
+							<div class="new-comment" ng-model="newComment.body" contentEditable="true" id="new-comment-textArea" placeholder="Ecrire un commentaire ...">
+
+							</div>
+							<label class="new-comment" for="file-input">
+								<i class="fa fa-camera-retro action"></i>
+							</label>
+							<input class="btn-file" id="file-input" type="file" ng-file-select="onFileSelect($files,true)" accept="image/*">
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="row" style="border: 1px solid #d3d6db; border-top: 0;">
+						<div class="col-xs-6 col-sm-4 col-md-4 fb-block">
+							<a class="publish-facebook" ng-click="newComment.facebook = !newComment.facebook" >
+								<input type="checkbox" ng-model="newComment.facebook"> Publier également sur Facebook
+							</a>
+						</div>
+						<div class="col-xs-6 col-sm-4 col-md-4 block-mood">
+							<!--<div class="filter-mobile">
+								<div class=" btn-group-xs" style="  margin-top: 10px; margin-bottom: 10px;">
+									<span class="btn-xs btn-default" ng-model="newComment.kind" btn-radio="0"><i class="fa fa-info-circle"></i> Information</span>
+									<span class="btn-xs btn-default" ng-model="newComment.kind" btn-radio="1"><i class="fa fa-bullhorn"></i> Opinion</span>
+									<span class="btn-xs btn-default" ng-model="newComment.kind" btn-radio="2"><i class="fa fa-smile-o"></i> Humour</span>
+								</div>
+							</div>
+
+							<div class="filter-screen">
+								<div class=" btn-group-sm"   style="margin-top: 10px; margin-bottom: 10px;">
+									<span class="btn-sm btn-default" tooltip-placement="bottom"  tooltip="Pour aider le lecteur à comprendre vos propos, choisissez le type de votre commentaire"  ng-model="newComment.kind" btn-radio="0"><i class="fa fa-info-circle"></i> Information</span>
+									<span class="btn-sm btn-default" tooltip-placement="bottom"  tooltip="Pour aider le lecteur à comprendre vos propos, choisissez le type de votre commentaire" ng-model="newComment.kind" btn-radio="1"><i class="fa fa-bullhorn"></i> Opinion</span>
+									<span class="btn-sm btn-default" tooltip-placement="bottom"  tooltip="Pour aider le lecteur à comprendre vos propos, choisissez le type de votre commentaire" ng-model="newComment.kind" btn-radio="2"><i class="fa fa-smile-o"></i> Humour</span>
+								</div>
+							</div>-->
+						</div>
+
+						<div class="col-xs-5 col-sm-4 col-md-4 block-send">
+							<!-- <strong ng-class="newComment.body.length > 140 ? 'text-success' : 'text-danger'">{{ newComment.body.length }}</strong> / 500 -->
+							<button  ng-show="user && !newComment.facebook" type="submit" ng-click="addComment()" class="btn btn-primary send-button" ng-cloak>
+								Publier avec mon compte
+							</button>
+
+							<button ng-show="user && newComment.facebook" type="submit" ng-click="addComment()" class="btn btn-primary  send-button" socialshare socialshare-provider="facebook" socialshare-type="feed" socialshare-via="713864435358027" socialshare-description="{{ share.description }}" socialshare-caption="{{ share.caption }}" socialshare-url="{{ share.url }}" socialshare-redirect-uri="http://what-is-your-opinion.com/closeWindow" socialshare-text="{{ share.text }}" ng-cloak>
+								Publier avec mon compte
+							</button>
+							<!--
+							<button ng-show="!user" class="btn btn-primary send-button" ng-click="addAnonComment()" ng-cloak>
+								<i class="fa fa-user-secret"></i>
+							</button>-->
+
+							<button ng-show="!user" class="btn btn-primary send-button" ng-click="openConnectModal(addComment)" ng-cloak>
+								Publier
+							</button>
+						</div>
+					</div>
+					<div class="alert alert-danger" align="center" ng-show="errorComment">
+						{{ errorComment}}
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
+
+	<!-- COMMENTS PART -->
+	<div class="row-fluid comment-section" ng-if="!badToken" ng-cloak>
+		<!-- NO COMMENTS -->
+		<div class="text-center" ng-if="!comments || comments.length == 0">
+			<strong>Aucun commentaire</strong>
+		</div>
+
+		<!-- COMMENTS CATEGORIES 
+		<div class="row" ng-if="comments && comments.length > 0">
+			<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+				<label>Filtre :
+					<div class="btn-group" data-toggle="buttons">
+						<label class="btn btn-default btn-sm" ng-class="{ active: showComments[0] }" tooltip="Information">
+							<input class="checkbox-inline" type="checkbox" ng-model="showComments[0]"> <i class="fa fa-info-circle"></i>
+						</label>
+						<label class="btn btn-default btn-sm" ng-class="{ active: showComments[1] }" tooltip="Opinion">
+							<input class="checkbox-inline" type="checkbox" ng-model="showComments[1]"><i class="fa fa-bullhorn"></i>
+						</label>
+						<label class="btn btn-default btn-sm" ng-class="{ active: showComments[2] }" tooltip="Humour">
+							<input class="checkbox-inline" type="checkbox" ng-model="showComments[2]"><i class="fa fa-smile-o"></i>
+						</label>
+					</div>
+				</label>
+			</div>
+		</div>-->
+
+		<!-- COMMENTS -->
+		<div class="container-fluid comment-frame" ng-repeat="comment in comments | limitTo: showMax" ng-show="showComments[comment.public_part.kind]">
+			<div class="row">
+				<div class="col-avatar col-xs-2 col-sm-1 col-md-1 col-lg-1">
+					<div class="avatar img-responsive ">
+						<img ng-src="{{ comment.public_part.author.info.avatar.link || '/images/avatars/default.png' }}" class="thumbnail img-responsive">
+					</div>
+				</div>
+				<div class="col-xs-10 col-sm-11 col-md-11 col-lg-11">
+					<div class="row">
+						<div class="pseudo-comment-zone col-xs-6 col-sm-6 col-md-6 col-lg-6">
+							<a class="action" ng-href="/profile/{{ comment.public_part.author._id }}" tooltip-placement="bottom"  tooltip="Plus d'information sur l'auteur" target="_blank">
+								{{ comment.public_part.author.local.pseudo }}
+							</a>
+							<span ng-show="!comment.public_part.author">Anonyme</span>
+							|
+							<i tooltip=" {{ kinds[comment.public_part.kind].name }}" class="fa" ng-class="kinds[comment.public_part.kind].icon"  ></i>
+							<span class="rating" ng-if="getPersonRate(comment.public_part.author.local.pseudo) != 0" ng-init="comment.user.public_part.user.rating = getPersonRate(comment.public_part.author.local.pseudo)" style="padding-left: 1em;">
+								<i class="fa fa-star" ng-if="comment.user.public_part.user.rating >= 1"></i>
+								<i class="fa fa-star" ng-if="comment.user.public_part.user.rating >= 2"></i>
+								<i class="fa fa-star" ng-if="comment.user.public_part.user.rating >= 3"></i>
+								<i class="fa fa-star" ng-if="comment.user.public_part.user.rating >= 4"></i>
+								<i class="fa fa-star" ng-if="comment.user.public_part.user.rating >= 5"></i>
+							</span>
+						</div>
+						<div class="position-denounce col-xs-6 col-sm-6 col-md-6 col-lg-6">
+							<button class="denounce" popover-template="'popoverdenounce'" popover-title="Signaler ce commentaire" popover-placement="left">
+								<i class="fa fa-flag"></i> Signaler
+							</button>
+						</div>
+					</div>
+					<div class="text-comment row">
+						<img ng-src="{{ comment.public_part.img }}">
+						<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" ng-bind-html="comment.public_part.body"></div>
+
+					</div>
+					<div class="row">
+						<div class="col-xs-6 col-sm-3 col-md-3 col-lg-3 date" style=" color: rgb(150,150,150); font-size: 12px">
+							<i>{{ comment.public_part.created | date:'d MMM y' }} à {{ comment.public_part.created | date:'H:mm' }}</i>
+						</div>
+					</div>
+
+					<div class="row display-experience">
+						<div class="col-xs-7 col-sm-7 col-md-7 col-lg-7 display-experience">
+							<a tooltip-placement="bottom" tooltip="Plus d'information sur l'auteur" class="btn btn-primary experience" ng-repeat="exp in comment.public_part.author.experiences" ng-href="/profile/{{ comment.public_part.author._id }}" target="_blank">{{ exp }}</a>
+						</div>
+
+						<div class="like col-xs-5 col-sm-5 col-md-5 col-lg-5">
+							<a class="action text-success" ng-click="upvoteComment( comment._id, $index )" tooltip-placement="bottom" tooltip="J'aime"><i class="fa fa-thumbs-o-up" ></i> {{ comment.public_part.upvotes }}</a>
+							<a class="action text-danger" ng-click="downvoteComment( comment._id, $index )" tooltip-placement="bottom" tooltip="Je n'aime pas"><i class="fa fa-thumbs-o-down"></i> {{ comment.public_part.downvotes }}</a>
+						</div>
+					</div>
+					<div class="display-denounce-bottom row">
+						<div class="like col-xs-5 col-sm-5 col-md-5 col-lg-5">
+							<a class="action text-success" ng-click="upvoteComment( comment._id, $index )"  tooltip-placement="bottom"  tooltip="J'aime"><i class="fa fa-thumbs-o-up"></i> {{ comment.public_part.upvotes }}</a>
+							<a class="action text-danger" ng-click="downvoteComment( comment._id, $index )" tooltip-placement="bottom"  tooltip="Je n'aime pas"><i class="fa fa-thumbs-o-down"></i> {{ comment.public_part.downvotes }}</a>
+						</div>
+						<div class="col-xs-7 col-sm-7 col-md-7 col-lg-7">
+							<button class="denounce" popover-template="'popoverdenounce'" popover-title="Signaler ce commentaire" popover-placement="bottom">
+								<div class="denounce-text-web"><i class="fa fa-flag"></i> Signaler</div><div class="denounce-text-mobile"><i class="fa fa-flag"></i></div>
+							</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- SHOW MORE -->
+		<button class="btn btn-primary experience" style="margin-left: 45%;" ng-click="showMore()" ng-show="showMax < comments.length" ng-cloak>
+			Montrer plus de commentaires
+		</button>
+
+		<!-- SIGNAL COMMENTS MODAL -->
+		<script type="text/ng-template" id="popoverdenounce">
+		<div class="form-group">
+		<label>Raison :</label>
+		<input type="text" ng-model="reason" class="form-control">
+		</div>
+		<button class="btn btn-default" ng-click="signalComment( comment._id, $index, reason )" ng-disabled="!reason"><i class="fa fa-check text-success"></i> Envoyer</button>
+		</script>
+	</div>
+</div>
+<hr>
+<!-- MODERATION PART -->
+<div class="row-fluid" ng-controller="ModerationCtrl" id="moderate" ng-cloak>
+	<div class="text-center">
+		<br>
+		<i>Pour éviter la censure et conserver des échanges de qualité, participez à la modération collaborative en respectant <a href="/rules" target="_blank">les règles du jeu.</a></i>
+		<br><br>
+	</div>
+
+	<div ng-if="!badToken">
+		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" ng-show="currentComment._id">
+			<div class="panel panel-default">
+				<div class="panel-heading"><h4><i class="fa fa-arrow-right"></i> Modérez :</h4></div>
+				<div class="panel-body">
+					<div class="row comment">
+						<img ng-src="{{ currentComment.public_part.img }}">
+						<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" ng-bind-html="currentComment.public_part.body"></div>
+						<br>
+						<a href="//{{ currentComment.public_part.link }}" target="_blank">Voir l'article en question</a>
+					</div>
+					<div class="vote">
+						<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+							<a ng-click="setComment('OK')" class="action" tooltip-placement="bottom"  tooltip="Selon les règles, pensez vous qu'il faut valider le commentaire?" ><i class="fa fa-check-square fa-2x"></i></br>Valider</a>
+						</div>
+						<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+							<a ng-click="setComment('PASS')" class="action"  tooltip="Si vous n'êtes pas certain, regardez les règles."><i class="fa fa-exclamation-triangle fa-2x"></i></br>Limite</a>
+						</div>
+						<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+							<a ng-click="setComment('KO')" class="action" tooltip-placement="bottom"  tooltip="Selon les règles, pensez vous qu'il faut modérer le commentaire"><i class="fa fa-times-circle fa-2x"></i></br>Modérer</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" ng-show="tutoriel && !notConnected">
+			<div class="panel panel-default">
+				<div class="panel-heading text-center">
+					Modérez ce commentaire :
+				</div>
+				<div class="panel-body">
+					<div class="row comment">
+						{{ tutoriels[currentTuto].body }}<br>
+						<i><a href="" tooltip-placement="bottom"  tooltip="Il n'y a pas de véritable article comme c'est un exercice">Ceci est un exercice de 3 commentaires à modérer.</a></i>
+					</div>
+
+					<div class="help well" ng-if="tutoriels[currentTuto].doHelp">
+						{{ tutoriels[currentTuto].help }}
+					</div>
+					<div class="vote">
+						<div class=" col-xs-4 col-sm-4 col-md-4 col-lg-4">
+							<a ng-click="setTutoComment('OK')" class="action"><i class="fa fa-check-square fa-2x" tooltip-placement="bottom"  tooltip="Selon les règles, pensez vous qu'il faut valider le commentaire ?"></i></br>Valider</a>
+						</div>
+						<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+							<a ng-click="setTutoComment('HELP')" class="action" tooltip-placement="bottom"  tooltip="Si vous n'êtes pas certain, regardez les règles."><i class="fa fa-exclamation-triangle fa-2x"></i></br>Aide</a>
+						</div>
+						<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+							<a ng-click="setTutoComment('KO')" class="action" tooltip-placement="bottom"  tooltip="Selon les règles, pensez vous qu'il faut modérer le commentaire"><i class="fa fa-times-circle fa-2x"></i></br>Modérer</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12"  ng-show="notConnected">
+			<div class="panel panel-default">
+				<div class="panel-heading text-center">
+					Modérez ce commentaire :
+				</div>
+				<div class="panel-body">
+					<div class="row comment">
+						Ceci n'est pas un vrai commentaire.
+						Pour modérer de vrais commentaires et commenter, <a href=""ng-click="openConnectModal()">connectez vous</a>.<br><br>
+						<i><a href=""tooltip-placement="bottom"  tooltip="connectez vous pour modérer">Voir l'article du commentaire</a></i>
+					</div>
+
+					<div class="vote">
+						<div class=" col-xs-4 col-sm-4 col-md-4 col-lg-4">
+							<a ng-click="setTutoComment('OK')" class="action" tooltip-placement="bottom"  tooltip="Connectez vous pour modérer"><i class="fa fa-check-square fa-2x"></i></br>Valider</a>
+						</div>
+						<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+							<a ng-click="setTutoComment('HELP')" class="action"tooltip-placement="bottom"  tooltip="Connectez vous pour modérer"><i class="fa fa-exclamation-triangle fa-2x"></i></br>Aide</a>
+						</div>
+						<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+							<a  ng-click="setTutoComment('KO')" class="action"  tooltip-placement="bottom"  tooltip="Connectez vous pour modérer"><i class="fa fa-times-circle fa-2x"></i></br>Modérer</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12"  ng-show="!currentComment._id && !notConnected && !tutoriel">
+			<div class="panel panel-default">
+				<div class="panel-heading text-center">
+					Modérez ce commentaire :
+				</div>
+				<div class="panel-body">
+					<div class="row comment">
+						Aucun commentaire en modération actuellement.<br><br>
+						<i><a href="">Voir l'article du commentaire</a></i>
+					</div>
+
+					<div class="vote">
+						<div class=" col-xs-4 col-sm-4 col-md-4 col-lg-4">
+							<a ng-click="setTutoComment('OK')" class="action"  tooltip-placement="bottom"  tooltip="On vous a dit qu'il n'y a pas de commentaire à modérer"><i class="fa fa-check-square fa-2x"></i></br>Valider</a>
+						</div>
+						<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+							<a ng-click="setTutoComment('HELP')" class="action" tooltip-placement="bottom"  tooltip="On vous a dit qu'il n'y a pas de commentaire à modérer"><i class="fa fa-exclamation-triangle fa-2x"></i></br>Aide</a>
+						</div>
+						<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4">
+							<a ng-click="setTutoComment('KO')" class="action" tooltip-placement="bottom"  tooltip="On vous a dit qu'il n'y a pas de commentaire à modérer"><i class="fa fa-times-circle fa-2x"></i></br>Modérer</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

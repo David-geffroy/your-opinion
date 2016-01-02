@@ -1,0 +1,1 @@
+module.exports = {base_url : "http://what-is-your-opinion.com"};

@@ -1,0 +1,40 @@
+<!--
+David GEFFROY 2015
+This program is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License along
+with this program; if not, write to the Free Software Foundation, Inc.,
+51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.-->
+<% include ../header %>
+	<% include ../topbar/topbar %>
+	<div id="page">
+		<div class="container-fluid">
+			<div class="row">
+				<div id="ciid-div"></div>
+				<script type="text/javascript">
+				/* * * CONFIGURATION VARIABLES * * */
+				var ciid_token = '2d72cf8e0b5c5cadccc8373a2cda2d5798ae1a671629bde5e4ac0da6cadf25caf8ee89d77c992e85860a9cefd6b5d650';
+				var ciid_mode = 'comments';
+//				var ciid_mode = 'admin';
+				(function() {
+					var dsl = document.createElement('script');
+					dsl.type = 'text/javascript';
+					dsl.async = true;
+					dsl.src = 'what-is-your-opinion.com/api/javascripts/apiLoader.js';
+					(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsl);
+				})();
+				</script>
+				<noscript>Please enable JavaScript to view the content of the page.</noscript>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

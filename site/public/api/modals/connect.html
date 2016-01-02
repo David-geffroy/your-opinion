@@ -1,0 +1,59 @@
+<div class="modal-header">
+	<h3 class="modal-title">
+		<a ng-click="signIn = false" ng-show="signIn"><i class="fa fa-arrow-circle-left"></i> Se connecter</a>
+	</h3>
+</div>
+<div class="modal-body">
+	<div class="row" style="padding-left: 10px;" ng-show="!signIn">
+		<div>
+			<h4><i class="fa fa-user"></i> Avec les réseaux sociaux</h4>
+		</div>
+		<div class="text-center">
+			<!-- <button class="btn btn-social btn-twitter" ng-click="connectTwitter()">
+				<i class="fa fa-twitter"></i> Twitter
+			</button> -->
+			<button class="btn btn-social btn-facebook" ng-click="connectFacebook()">
+				<i class="fa fa-facebook"></i> Facebook
+			</button>
+			<button class="btn btn-social btn-google" ng-click="connectGoogle()">
+				<i class="fa fa-google-plus"></i> Google
+			</button>
+		</div>
+	</div>
+	<hr ng-show="!signIn">
+	<div class="row" style="padding-left: 10px;" ng-show="!signIn && !resendPassword">
+		<div>
+			<h4 display="inline"><i class="fa fa-sign-in"></i> Avec votre email ou <a ng-click="signIn = true" ng-show="!signIn">créez votre compte</a></h4>
+		</div>
+		<div class="col-md-offset-2 col-md-8">
+			<input class="form-control" style="margin-bottom: 15px;" type="text" ng-model="email" placeholder="Email" name="Email">
+			<input class="form-control" type="password" ng-model="password" placeholder="Password" name="Password">
+			<small><a class="action" ng-click="resendPassword = true"> Mot de passe oublié ?</a></small>
+			<input class="btn btn-success btn-block" ng-click="connectLocal()" type="submit" value="Valider" style="margin-top: 15px;">
+		</div>
+	</div>
+	<div class="row" style="padding-left: 10px;" ng-show="!signIn && resendPassword">
+		<div>
+			<h4>Mot de passe Oublié <i class=" fa fa-question"></i> <a ng-click="resendPassword = false" style="float: right;"><i class="fa fa-times text-danger"></i></a></h4>
+		</div>
+		<div class="col-md-offset-2 col-md-8">
+			<input class="form-control" style="margin-bottom: 15px;" type="text" ng-model="email" placeholder="Email" name="Email">
+			<input class="btn btn-success btn-block" ng-click="doResendPassword()" type="submit" value="Valider" style="margin-top: 15px;">
+			<div class="alert">{{ error }}</div>
+		</div>
+	</div>
+
+	<div class="row" style="padding-left: 10px;" ng-show="signIn">
+		<div>
+			<h4><i class="fa fa-user-plus"></i> Renseignez les champs ci-dessous</h4>
+		</div>
+		<div class="col-md-offset-2 col-md-8">
+			<input class="form-control" style="margin-bottom: 15px;" type="text" ng-model="pseudo" placeholder="Pseudo" name="Pseudo">
+			<input class="form-control" style="margin-bottom: 15px;" type="text" ng-model="email" placeholder="Email" name="Email">
+			<input class="form-control" style="margin-bottom: 15px;" type="password" ng-model="password" placeholder="Password" name="password">
+			<input class="form-control" style="margin-bottom: 15px;" type="password" ng-model="confirmPassword" placeholder="Confirm Password" name="ConfirmPassword">
+
+			<input class="btn btn-success btn-block" ng-click="createAccount()" type="submit" value="Valider">
+		</div>
+	</div>
+</div>

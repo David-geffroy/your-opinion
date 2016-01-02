@@ -1,0 +1,13 @@
+Nous sommes désolés, il semblerai qu'il y ai eu une erreur : <%= message %><br>
+Vous pouvez retourner à <a href="/">l'accueil</a>
+
+<%if (error.status) { %>
+<p>
+	<%= error.status %>
+</p>
+<% } %>
+<%if (error.stack) { %>
+<p>
+	<%= error.stack %>
+</p>
+<% } %>

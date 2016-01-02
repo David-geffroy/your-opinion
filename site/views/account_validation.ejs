@@ -1,0 +1,19 @@
+<% include header %>
+	<div id="acccount-validation" ng-controller="AccountCtrl">
+		<div class="container-fluid">
+			<div class="row ">
+				<div class="block">
+					<h1>Félicitations</h1>
+					Votre compte a été créé mais l'inscription doit être finalisée.
+					<br><br>
+					Pour terminer l'inscription, veuillez cliquer sur le lien reçu à l'adresse <%= email %> 
+					<br><br>
+					<small>Je n'ai pas reçu de mail, <a class="action" ng-click="resend()">me renvoyer le code.</a></small>
+					<br><br>
+					<a href="/logout">Quitter cette page</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

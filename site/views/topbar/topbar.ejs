@@ -1,0 +1,141 @@
+<!--
+David GEFFROY 2015
+This program is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License along
+with this program; if not, write to the Free Software Foundation, Inc.,
+51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.-->
+
+<script src="/javascripts/navbar.js"></script>
+<div id="wrapper" ng-controller="NavBarCtrl">
+	<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+		<!-- Brand and toggle get grouped for better mobile display -->
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" href="/">What is Your OPINION?</a>
+		</div>
+		<!-- Top Menu Items -->
+		<ul class="nav navbar-right top-nav">
+
+
+			<li class="dropdown">
+				<a href="#" class="dropdown-toggle" data-toggle="dropdown">Dans mon site <b class="caret"></b></a>
+				<ul class="dropdown-menu">
+					<% apps.forEach(function(entry){ %>
+
+					<li ng-class="{ active : isActive('/admin/<%= entry._id %>') }">
+						<a href="/admin/<%= entry._id %>">
+							<i class="fa fa-newspaper-o"></i> </i> <%= entry.name %>
+						</a></li>
+						<%}) %>
+						<li ng-class="{ active : isActive('/admin') || isActive('/admin/', true) }"><a href="/admin">
+							<i class="fa fa-fw fa-gears"></i> Intégrer
+						</a>
+					</li>
+
+				</ul>
+			</li>
+
+
+			<li class="dropdown">
+				<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> <b class="caret"></b></a>
+				<ul class="dropdown-menu dropdown-menu-right">
+					<li ng-class="{ active : isActive('/dashboard/profile') }">
+						<a href="/profile" ng-mouseenter="pHover = true" ng-mouseleave="pHover = false">
+
+							<!-- <i class="fa fa-lg" ng-class="{ 'fa-user': pHover == false, 'fa-user-secret': pHover == true }"></i> Profil -->
+							<i class="fa fa-lg fa-user"></i> Profil auteur
+						</a>
+					</li>
+
+					<li ng-class="{ active : isActive('/dashboard/test_ciid') }">
+						<a href="/dashboard/test_ciid" ng-mouseenter="tHover = true" ng-mouseleave="tHover = false">
+
+							<!-- <i class="fa fa-cog fa-lg" ng-class="{ 'fa-spin': tHover }"></i> Test -->
+							<i class="fa fa-lg fa-question"></i> Votre avis
+
+						</a>
+					</li>
+
+					<li ng-class="{ active : isActive('/admin/about') }">
+						<a href="/dashboard/about" ng-mouseenter="tHover = true" ng-mouseleave="tHover = false">
+
+							<!-- <i class="fa fa-cog fa-lg" ng-class="{ 'fa-spin': tHover }"></i> Test -->
+							<i class="fa fa-lg fa-smile-o"></i> A propos
+						</a>
+					</li>
+					<li class="divider"></li>
+					<li>
+
+						<a href="/logout" ng-mouseenter="lHover = true" ng-mouseleave="lHover = false">
+							<i class="fa fa-lg" ng-class="{ 'fa-sign-in': lHover == false, 'fa-sign-out': lHover == true }"></i> Déconnecter
+						</a>
+					</li>
+
+				</ul>
+			</li>
+		</ul>
+		<!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
+
+		<div class="nav-side-menu">
+			<div class="brand" align="center"><a href="/dashboard">Vous êtes Auteur</a></div>
+			<i class="fa fa-bars fa-2x toggle-btn" data-toggle="collapse" data-target="#menu-content"></i>
+			<div class="menu-list">
+				<ul id="menu-content" class="menu-content collapse out">
+
+
+
+
+					<a href="/dashboard/mycomments" ng-mouseenter="cHover = true" ng-mouseleave="cHover = false">
+						<li ng-class="{ active : isActive('/dashboard/mycomments') }">
+							<!-- <i class="fa fa-lg" ng-class="{ 'fa-comment': cHover == false, 'fa-comments': cHover == true }"></i> Mes commentaires -->
+							<i class="fa fa-lg fa-comments"></i> Mes commentaires
+						</li>
+					</a>
+
+					<a href="/dashboard/validation" ng-mouseenter="vHover = true" ng-mouseleave="vHover = false">
+						<li ng-class="{ active : isActive('/dashboard/validation') }">
+							<!-- <i class="fa fa-lg" ng-class="{ 'fa-times': vHover == false, 'fa-check': vHover == true }"></i> A modérer -->
+							<i class="fa fa-lg fa-check"></i> A modérer
+						</li>
+					</a>
+
+					<a href="/dashboard/figures" ng-mouseenter="fHover = true" ng-mouseleave="fHover = false">
+						<li ng-class="{ active : isActive('/dashboard/figures') }">
+							<!-- <i class="fa fa-lg" ng-class="{ 'fa-bar-chart': fHover == false, 'fa-area-chart': fHover == true }"></i> Stats -->
+							<i class="fa fa-lg fa-bar-chart"></i> Votre influence
+						</li>
+					</a>
+
+					<a href="/dashboard/rules" ng-mouseenter="rHover = true" ng-mouseleave="rHover = false">
+						<li ng-class="{ active : isActive('/dashboard/rules') }">
+							<!-- <i class="fa fa-lg" ng-class="{ 'fa-square-o': rHover == false, 'fa-check-square-o': rHover == true }"></i> Règles -->
+							<i class="fa fa-lg fa-check-square-o"></i> Règles
+						</li>
+					</a>
+
+					<a href="/dashboard/test_ciid" ng-mouseenter="tHover = true" ng-mouseleave="tHover = false">
+						<li ng-class="{ active : isActive('/dashboard/test_ciid') }">
+							<!-- <i class="fa fa-cog fa-lg" ng-class="{ 'fa-spin': tHover }"></i> Test -->
+							<i class="fa fa-lg fa-question"></i> Votre avis?
+						</li>
+					</a>
+				</ul>
+			</div>
+		</div>
+		<!-- /.navbar-collapse -->
+	</nav>
+</div>

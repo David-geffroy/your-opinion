@@ -1,0 +1,105 @@
+<script src="/javascripts/navbar.js"></script>
+<div id="wrapper" ng-controller="NavBarCtrl">
+	<nav class="navbar navbar-inverse navbar-fixed-top admin-bar" role="navigation">
+		<!-- Brand and toggle get grouped for better mobile display -->
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand admin-bar" href="/">What is Your OPINION?</a>
+		</div>
+		<!-- Top Menu Items -->
+		<ul class="nav navbar-right top-nav">
+
+
+			<li ng-class="{ active : isActive('/dashboard') }">
+				<a href="/dashboard"><i class="fa fa-pencil-square-o fa-lg"></i> Passer en mode auteur</a>
+			</li>
+
+
+
+
+			<li class="dropdown">
+				<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i><b class="caret"></b></a>
+				<ul class="dropdown-menu dropdown-menu-right">
+					<li ng-class="{ active : isActive('/dashboard/profile') }">
+						<a href="/profile" ng-mouseenter="pHover = true" ng-mouseleave="pHover = false">
+
+							<!-- <i class="fa fa-lg" ng-class="{ 'fa-user': pHover == false, 'fa-user-secret': pHover == true }"></i> Profil -->
+							<i class="fa fa-lg fa-user"></i> Profil auteur
+						</a>
+					</li>
+
+					<li ng-class="{ active : isActive('/admin/avis-admin') }">
+						<a href="/dashboard/avis-admin" ng-mouseenter="tHover = true" ng-mouseleave="tHover = false">
+
+							<!-- <i class="fa fa-cog fa-lg" ng-class="{ 'fa-spin': tHover }"></i> Test -->
+							<i class="fa fa-lg fa-question"></i> Votre avis
+						</a>
+					</li>
+
+					<li ng-class="{ active : isActive('/dashboard/test_ciid') }">
+						<a href="mailto:contact@what-is-your-opinion.com" ng-mouseenter="tHover = true" ng-mouseleave="tHover = false">
+
+							<!-- <i class="fa fa-cog fa-lg" ng-class="{ 'fa-spin': tHover }"></i> Test -->
+							<i class="fa fa-lg fa-gears"></i> Support
+
+						</a>
+					</li>
+					<li ng-class="{ active : isActive('/admin/about') }">
+						<a href="/dashboard/about" ng-mouseenter="tHover = true" ng-mouseleave="tHover = false">
+
+							<!-- <i class="fa fa-cog fa-lg" ng-class="{ 'fa-spin': tHover }"></i> Test -->
+							<i class="fa fa-lg fa-smile-o"></i> A propos
+						</a>
+					</li>
+					<li class="divider"></li>
+					<li>
+
+						<a href="/logout" ng-mouseenter="lHover = true" ng-mouseleave="lHover = false">
+							<i class="fa fa-lg" ng-class="{ 'fa-sign-in': lHover == false, 'fa-sign-out': lHover == true }"></i> Déconnecter
+						</a>
+					</li>
+
+				</ul>
+			</li>
+		</ul>
+		<!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
+
+		<div class="nav-side-menu">
+			<div class="brand" align="center"><a href="/admin">Vous êtes Editeur</a></div>
+			<i class="fa fa-bars fa-2x toggle-btn" data-toggle="collapse" data-target="#menu-content"></i>
+			<div class="menu-list">
+				<ul id="menu-content" class="menu-content collapse out">
+
+
+
+					<a href="/admin">
+						<li ng-class="{ active : isActive('/admin') || isActive('/admin/', true) }">
+							<i class="fa fa-wrench fa-lg"></i>Intégrer</li>
+						</a>
+
+						<li data-toggle="collapse" data-target="#service" class="collapsed" ng-class="{ active : isActive('/admin/') }">
+							<i class="fa fa-globe fa-lg"></i> Mes sites <span class="arrow"></span>
+						</li>
+						<ul class="sub-menu " id="service">
+
+							<% apps.forEach(function(entry){ %>
+							<a href="/admin/<%= entry._id %>">
+								<li ng-class="{ active : isActive('/admin/<%= entry._id %>') }"><%= entry.name %></li>
+							</a>
+							<%}) %>
+
+						</ul>
+
+
+					</ul>
+				</div>
+			</div>
+
+			<!-- /.navbar-collapse -->
+		</nav>
+	</div>

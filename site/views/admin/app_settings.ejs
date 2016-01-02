@@ -1,0 +1,335 @@
+<% include ../header %>
+<% include topbar-admin %>
+<div id="page">
+	<div class="container-fluid">
+		<div ng-controller="AdminCtrl" ng-init="$root.appID = '<%= app._id %>'; $root.appKey = '<%= app.appKey %>'">
+			<div class="row">
+				<div class="col-lg-12">
+					<h1 class="page-header"><a class="action" ng-click="showHome()">Tableau de bord éditeur <%= app.name %></a>
+						<button class="btn btn-success" ng-click="openUpgradeModal()">Plus d'option</button>
+					</h1>
+				</div>
+			</div>
+			<div class="row">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<span class="dropdown" dropdown on-toggle="toggled(open)">
+							<a class="dropdown-toggle action" dropdown-toggle ng-mouseenter="showCaret = true" ng-mouseleave="showCaret = false">
+								Paramètres <i class="fa fa-caret-down"></i>
+							</a>
+							<ul class="dropdown-menu">
+								<li class="action" ng-click="showBlacklists()">
+									<a>Blacklists</a>
+								</li>
+								<li class="action" ng-click="showRoles()">
+									<a>Rôles</a>
+								</li>
+								<li class="action" ng-click="showScript()">
+									<a>Script</a>
+								</li>
+								<li class="action" ng-click="showNewsletter()">
+									<a>Newsletter</a>
+								</li>
+								<li class="action text-warning" ng-click="openImportExportModal()">
+									<a>Export de données</a>
+								</li>
+								<li class="action text-danger" ng-click="deleteApp('<%= app._id %>')">
+									<a>Supprimer l'application</a>
+								</li>
+							</ul>
+						</span>
+					</div>
+					<div class="panel-body">
+						<!-- SELECTION -->
+						<div class="col-sm-12 col-md-12 col-lg-3">
+							<div class="list-group">
+								<div class="list-group-item">
+									<h5>Listes des articles</h5>
+									<span ng-repeat="article in articles" ng-show="articlePagination($index + 1)" ng-cloak>
+										<span title="Nombre total (Nombre en attente de modération)">{{ article.totalNumber }} ({{ article.modNumber }}) - </span>
+										<a class="action" ng-click="showComments('<%= app._id %>', article.link)">
+											{{ getPageName(article.link, '<%- app.allowed_domain %>') }}
+										</a>
+										<br>
+									</span>
+									<pagination direction-links="false" total-items="articles.length" item-per-page="12" max-size="7" ng-model="current.Articles" ng-if="articles.length > 12" class="pagination-sm">
+									</pagination>
+								</div>
+							</div>
+						</div>
+
+						<div class="col-xs-12 col-sm-12 col-md-12 col-lg-9" ng-cloak ng-if="show.home">
+							<div class="row"><h5><a ng-click="showModComments()">{{ commentCount.mod }} commentaire(s) en attente de modération</a></h5></div>
+							<div class="row"><h5>{{ commentCount.lastweekpublished }} commentaire(s) écrit(s) depuis une semaine</h5></div>
+							<div class="row"><h5>{{ commentCount.total }} commentaire(s) dans votre application</h5></div>
+							<div class="row"><h5>{{ commentCount.published }} commentaire(s) publié(s)</h5></div>
+							<div class="row"><h5> {{ commentCount.signaled }} commentaire(s) signalé(s)</h5></div>
+						</div>
+						<div class="col-xs-12 col-sm-12 col-md-12 col-lg-9" ng-cloak ng-if="show.newsletter">
+							Emails des utilisateurs ayant accepté de recevoir la newsletter.
+							<code>
+								<p ng-repeat="mail in newsletterMails">
+									{{ mail }}
+								</p>
+							</code>
+						</div>
+						<!-- COMMENTAIRES -->
+						<div class=" col-sm-12 col-md-12 col-lg-9" ng-controller="AdminCommentsCtrl" ng-cloak ng-if="show.comments">
+							<div class="row" ng-if="currentPageComments" ng-cloak>
+								<div class="col-md-3 col-lg-3 sort">
+									<select class="form-control" ng-model="currentDateOrder" ng-init="currentDateOrder = dateOrder[0]" ng-options="option as option.label for option in dateOrder"></select>
+								</div>
+								<div class="col-md-3 col-lg-3 sort">
+									<select class="form-control" ng-model="currentVoteOrder" ng-options="option as option.label for option in voteOrder"></select>
+								</div>
+								<div class="col-md-3 col-lg-3 sort">
+									<a class="btn btn-primary btn-WIYO" href="#modifyQuestion" data-toggle="collapse" aria-expanded="false" aria-controls="modifyQuestion">
+										Modifier le sondage
+									</a>
+								</div>
+							</div>
+							<div class="collapse well" id="modifyQuestion">
+								<div class="row">
+									<div class="col-md-6 col-lg-6">
+										<label><strong>Modifier la question :</strong></label>
+										<input class="form-control" type="string" ng-model="article.question">
+									</div>
+									<div class="col-md-6 col-lg-6">
+										<label for="rating-choice"><strong>Notation :</strong></label><br>
+										<div class="row">
+											<div class="col-md-3 col-lg-3" >
+												<input type="radio" ng-model="article.ratingType" value="0">
+												<span class="rating"><i class="fa" ng-class="rate >= 1 ? 'fa-star' : 'fa-star-o'"></i></span>
+											</div>
+											<div class="col-md-3 col-lg-3">
+												<input type="radio" ng-model="article.ratingType" value="1">
+												<span class="rating">Texte</span>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="col-md-12 col-lg-12">
+									<label><strong>Réponses :</strong></label>
+								</div>
+								<form class="form-inline">
+									<div class="row">
+										<div class="col-md-12">
+											<div class="col-md-12 col-lg-2 input-group">
+												<input class="form-control" ng-model="article.ratingRep.A" type="string">
+												<span class="input-group-addon">{{ scores.a * 100 / scores.total | number:1 }} %</span>
+											</div>
+											<div class="col-md-12 col-lg-2 input-group">
+												<input class="form-control" ng-model="article.ratingRep.B" type="string">
+												<span class="input-group-addon">{{ scores.b * 100 / scores.total | number:1 }} %</span>
+											</div>
+											<div class="col-md-12 col-lg-2 input-group">
+												<input class="form-control" ng-model="article.ratingRep.C" type="string">
+												<span class="input-group-addon">{{ scores.c * 100 / scores.total | number:1 }} %</span>
+											</div>
+											<div class="col-md-12 col-lg-2 input-group">
+												<input class="form-control" ng-model="article.ratingRep.D" type="string">
+												<span class="input-group-addon">{{ scores.d * 100 / scores.total | number:1 }} %</span>
+											</div>
+											<div class="col-md-12 col-lg-2 input-group">
+												<input class="form-control" ng-model="article.ratingRep.E" type="string">
+												<span class="input-group-addon">{{ scores.e * 100 / scores.total | number:1 }} %</span>
+											</div>
+										</div>
+									</div>
+								</form>
+								<div class="row" align="left">
+									<div class="col-md-12">
+										<br>
+										<button class="btn btn-success" ng-click="updateArticle()">Enregistrer</button>
+									</div>
+								</div>
+							</div>
+
+							<a ng-href="//{{ article.link }}">Voir l'article</a> - <a ng-click="toMod = !toMod">Voir les commentaires à modérer</a>
+							<br>
+							<div class="well" ng-repeat="comment in currentPageComments" ng-if="(!toMod) || (toMod && !isPublished(comment))">
+								<div class="row">
+									<strong>
+										{{ comment.public_part.author.local.pseudo || "Anonyme" }}
+										|
+										{{ kinds[comment.public_part.kind].name }} <i class="fa" ng-class="kinds[comment.public_part.kind].icon"></i>
+										|
+										{{ comment.public_part.created | date:'d MMM y - H:mm:ss' }}
+									</strong>
+								</div>
+								<div class="row text-comment">
+									<img ng-src="{{ comment.public_part.img }}">
+									<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" ng-bind-html="comment.public_part.body"></div>
+								</div>
+								<hr>
+								<div class="row">
+									<div class="col-md-6 col-lg-6">
+										Vote de la communauté :
+										<i class="fa fa-users text-success" tooltip="Validé par la communauté"></i> : {{ comment.private_part.validatedFrom.length }}
+										<i class="fa fa-users text-warning" tooltip="Jugé limite par la communauté"></i> : {{ comment.private_part.ignoredFrom.length }}
+										<i class="fa fa-users text-danger" tooltip="Refusé par la communauté"></i> : {{ comment.private_part.deletedFrom.length }}
+										<i class="fa fa-exclamation-triangle text-info" tooltip="Signalé par la communauté"></i> : {{ comment.private_part.denounceFrom.length }}
+										<br>
+										Etat :
+										<i class="fa fa-check fa-lg text-success" tooltip="Publié" ng-cloak ng-if="isPublished(comment)"></i>
+										<i class="fa fa-times fa-lg text-danger" tooltip="Non publié" ng-hide="isPublished(comment)"></i>
+									</div>
+									<div class="col-md-6 col-lg-6">
+										<button class="btn" ng-class="comment.private_part.validatedByOwner ? 'btn-success' : 'btn-default'" ng-click="setCommentOwnerOk('<%= app._id %>', comment)">
+											Afficher
+										</button>
+										<button class="btn" ng-class="comment.private_part.deletedByOwner ? 'btn-danger' : 'btn-default'" ng-click="setCommentOwnerKo('<%= app._id %>', comment)">
+											Ne pas afficher
+										</button>
+										<button class="btn" ng-class="isBanned('<%= app.b_emails %>', comment.public_part.author.local.email) ? 'btn-warning' : 'btn-default'"
+											ng-click="banEmail('<%= app._id %>', comment.public_part.author.local.email)">
+											Bannir
+										</button>
+									</div>
+								</div>
+							</div>
+
+							<div class="col-md-9 col-lg-9 text-center" ng-if="!currentPageComments">
+								<strong>Aucun commentaire pour le moment.</strong>
+							</div>
+						</div>
+
+						<!-- MOD COMMENTS -->
+						<div class="col-sm-12 col-md-12 col-lg-9" ng-controller="AdminCommentsCtrl" ng-cloak ng-if="show.modComments">
+							<div class="well" ng-repeat="comment in commentsToMod">
+								<div class="row">
+									<strong>
+										{{ comment.public_part.author.local.pseudo || "Anonyme" }}
+										|
+										{{ kinds[comment.public_part.kind].name }} <i class="fa" ng-class="kinds[comment.public_part.kind].icon"></i>
+										|
+										{{ comment.public_part.created | date:'d MMM y - H:mm:ss' }}
+									</strong>
+								</div>
+								<div class="row text-comment">
+									<img ng-src="{{ comment.public_part.img }}">
+									<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" ng-bind-html="comment.public_part.body"></div>
+								</div>
+								<hr>
+								<div class="row">
+									<div class="col-md-6 col-lg-6">
+										Vote de la communauté :
+										<i class="fa fa-users text-success" tooltip="Validé par la communauté"></i> : {{ comment.private_part.validatedFrom.length }}
+										<i class="fa fa-users text-warning" tooltip="Jugé limite par la communauté"></i> : {{ comment.private_part.ignoredFrom.length }}
+										<i class="fa fa-users text-danger" tooltip="Refusé par la communauté"></i> : {{ comment.private_part.deletedFrom.length }}
+										<i class="fa fa-exclamation-triangle text-info" tooltip="Signalé par la communauté"></i> : {{ comment.private_part.denounceFrom.length }}
+										<br>
+										Etat :
+										<i class="fa fa-check fa-lg text-success" tooltip="Publié" ng-cloak ng-if="isPublished(comment)"></i>
+										<i class="fa fa-times fa-lg text-danger" tooltip="Non publié" ng-hide="isPublished(comment)"></i>
+									</div>
+									<div class="col-md-6 col-lg-6">
+										<button class="btn" ng-class="comment.private_part.validatedByOwner ? 'btn-success' : 'btn-default'" ng-click="setCommentOwnerOk('<%= app._id %>', comment)">
+											Afficher
+										</button>
+										<button class="btn" ng-class="comment.private_part.deletedByOwner ? 'btn-danger' : 'btn-default'" ng-click="setCommentOwnerKo('<%= app._id %>', comment)">
+											Ne pas afficher
+										</button>
+										<button class="btn" ng-class="isBanned('<%= app.b_emails %>', comment.public_part.author.local.email) ? 'btn-warning' : 'btn-default'"
+											ng-click="banEmail('<%= app._id %>', comment.public_part.author.local.email)">
+											Bannir
+										</button>
+									</div>
+								</div>
+							</div>
+
+							<div class="col-md-9 col-lg-9 text-center" ng-if="!commentsToMod">
+								<strong>Aucun commentaire pour le moment.</strong>
+							</div>
+						</div>
+
+						<!-- BLACKLIST -->
+						<div class=" col-sm-12 col-md-12 col-lg-9" ng-controller="AdminBlacklistsCtrl" ng-cloak ng-if="show.blacklists">
+							<h4>Blacklist email</h4>
+							<ul class="list-group">
+								<% app.b_emails.forEach(function(email) { %>
+								<li class="list-group-item">
+									<%= email %>
+									<a class="action pull-right" ng-click="unbanEmail('<%= app._id %>', '<%= email %>')"><i class="fa fa-times text-error"></i></a>
+								</li>
+								<% }) %>
+							</ul>
+							<div class="input-group">
+								<input class="form-control" type="text" ng-model="b_email">
+								<span class="input-group-addon" ng-click="banEmail('<%= app._id %>', b_email)">
+									<a class="action">Blacklister cet email</a>
+								</span>
+							</div>
+
+							<h4>Blacklist IP</h4>
+							<div class="input-group">
+								<input class="form-control" type="text" ng-model="a">
+								<span class="input-group-addon" ng-click="">
+									<a class="action">Blacklister cette IP</a>
+								</span>
+							</div>
+
+							<h4>Blacklist Mots</h4>
+							<div class="input-group">
+								<input class="form-control" type="text" ng-model="a">
+								<span class="input-group-addon" ng-click="">
+									<a class="action">Blacklister ce mot</a>
+								</span>
+							</div>
+						</div>
+
+						<!-- ROLES -->
+						<div class=" col-sm-12 col-md-12 col-lg-9" ng-controller="AdminRolesCtrl" ng-cloak ng-if="show.roles">
+							<h5>Administrateurs</h5>
+							<ul class="list-group">
+								<li class="list-group-item"><%= app.owner.local.email %></li>
+								<% app.roles.forEach( function(role) { %>
+								<li class="list-group-item">
+									<%= role.user.local.email %>
+									<a class="action pull-right" ng-click="deleteAdmin('<%= app._id %>', '<%= role.user.local.email %>')"><i class="fa fa-times text-error"></i></a>
+								</li>
+								<% }) %>
+							</ul>
+							<div class="input-group">
+								<input class="form-control" type="text" ng-model="newAdmin" placeholder="Adresse email du membre">
+								<span class="input-group-addon">
+									<a class="action" ng-click="addNewAdmin('<%= app._id %>')">Ajouter un Administrateur <i class="fa fa-user-plus"></i></a>
+								</span>
+							</div>
+						</div>
+
+						<!-- API SCRIPT -->
+						<div class=" col-sm-12 col-md-12 col-lg-9" ng-cloak ng-if="show.script">
+							<h5>Copiez & inserez ce code dans votre page</h5>
+							<textarea class="form-control embed_code" rows="13" readonly>
+<div id="ciid-div"></div>
+<script type="text/javascript">
+/* * * CONFIGURATION VARIABLES * * */
+var ciid_token = '<%= app.appKey %>';
+var ciid_mode = 'comments';
+// var ciid_mode = 'admin';
+(function() {
+	var dsl = document.createElement('script');
+	dsl.type = 'text/javascript';
+	dsl.async = true;
+	dsl.src = '//what-is-your-opinion.com/api/javascripts/apiLoader.js';
+	(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsl);
+})();
+</script>
+<noscript>Please enable JavaScript to view the content of the page.</noscript></textarea>
+								<br>
+								<a href="http://certif-iid.com/what%20is%20your%20opinion.zip">Télécharger le plugin Wordpress</a>
+								<br>
+								<label for="domain">Domaine autorisé :</label>
+								<div class="input-group">
+									<input class="form-control" name="domain" ng-model="domain" ng-init="domain='<%= app.allowed_domain %>'">
+									<span class="input-group-addon action" ng-click="updateAllowedDomain('<%= app._id %>', domain)">Sauver</span>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+	</html>

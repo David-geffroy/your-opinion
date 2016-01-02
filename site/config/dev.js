@@ -1,0 +1,1 @@
+module.exports = {base_url : "http://local.what-is-your-opinion.com"};

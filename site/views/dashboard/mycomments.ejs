@@ -1,0 +1,90 @@
+<!--
+David GEFFROY 2015
+This program is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License along
+with this program; if not, write to the Free Software Foundation, Inc.,
+51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.-->
+<% include ../header %>
+<% include ../topbar/topbar %>
+<div id="page" ng-controller="MyCommentsCtrl">
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-lg-12">
+				<h1 class="page-header">Mes commentaires</h1>
+			</div>
+		</div>
+		<div ng-show="comments.length > 1">
+			<div class="row">
+				<div class="col-md-3 col-lg-3 sort">
+					<select class="form-control" ng-model="currentDateOrder" ng-init="currentDateOrder = dateOrder[0]" ng-options="option as option.label for option in dateOrder"></select>
+				</div>
+				<div class="col-md-3 col-lg-3 sort">
+					<select  class="form-control" ng-model="currentVoteOrder" ng-options="option as option.label for option in voteOrder"></select>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<!-- /.panel-heading -->
+			<div ng-repeat="comment in comments">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<strong tooltip="{{ comment.public_part.created | date:'H:mm:ss' }}">{{ comment.public_part.created | date:'d MMM y' }}</strong>
+						|
+						<strong>{{ kinds[comment.public_part.kind].name }} <i class="fa" ng-class="kinds[comment.public_part.kind].icon"></i></strong>
+						|
+						<a class="action" ng-href="{{ comment.public_part.link }}"><i class="fa fa-eye"></i> Voir</a>
+						| 
+						<a class="action"><i class="fa fa-remove text-danger"></i> Supprimer</a>
+					</div>
+					<div class="panel-body">
+						<div class="row text-comment">
+							<img ng-src="{{ comment.public_part.img }}">
+							<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" ng-bind-html="comment.public_part.body"></div>
+						</div>
+					</div>
+					<div class="panel-footer">
+						<div>
+							<i class="fa fa-thumbs-o-up text-success"></i> {{ comment.public_part.upvotes.length }}
+							<i class="fa fa-thumbs-o-down text-danger"></i> {{ comment.public_part.downvotes.length }}
+						</div> 
+						<div class="row">
+							Votes de la communauté :
+							<i class="fa fa-users text-success" tooltip="Validé par la communauté"></i> : {{ comment.private_part.validatedFrom.length }}
+							<i class="fa fa-users text-warning" tooltip="Jugé limite par la communauté"></i> : {{ comment.private_part.ignoredFrom.length }}
+							<i class="fa fa-users text-danger" tooltip="Refusé par la communauté"></i> : {{ comment.private_part.deletedFrom.length }}
+							<i class="fa fa-exclamation-triangle text-info" tooltip="Signalé par la communauté"></i> : {{ comment.private_part.denounceFrom.length }}
+							<i class="fa fa-ban text-danger" ng-show="comment.private_part.deletedByOwner" tooltip="Refusé par le proprietaire de l'application"></i>
+						</div>
+						<div class="row ">
+							Etat : 
+							<i class="fa fa-check fa-lg text-success" tooltip="Publié" ng-show="isPublished(comment)"></i>
+							<i class="fa fa-times fa-lg text-danger" tooltip="Non publié" ng-hide="isPublished(comment)"></i>
+						</div>
+					</div>
+				</div>
+				<div align="center" ng-show="comments.length == 0">
+					<strong>Aucun commentaire à afficher.</strong>
+				</div>
+
+
+
+			</div>
+		</div>	
+
+
+	</div>
+</div>
+</body>
+</html>
+
+
+

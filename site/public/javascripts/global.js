@@ -1,0 +1,1 @@
+var GlobalApp = angular.module('GlobalApp', ['ui.bootstrap', 'angularFileUpload', 'ngSanitize']);

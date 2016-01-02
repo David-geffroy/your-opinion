@@ -1,0 +1,27 @@
+<div class="modal-header">
+	<h3 class="modal-title">
+		Import / Export des données
+	</h3>
+</div>
+<div class="modal-body">
+	<div class="row">
+		<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+			<div>
+				<h4><i class="fa fa-cloud-upload"></i> Import</h4>
+			</div>
+			<div>
+				<button class="btn btn-default" ng-click="importComments()" disabled>Importer des commentaires</button>
+				<button class="btn btn-info float-right" title="Fonction en cours de développement">?</button>
+			</div>
+		</div>
+		<div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
+			<div>
+				<h4><i class="fa fa-cloud-download"></i> Export</h4>
+			</div>
+			<div>
+				<button class="btn btn-default" ng-click="exportComments()">Télécharger les commentaires</button>
+				<button class="btn btn-default" ng-click="exportArticles()">Télécharger les données d'articles</button>
+			</div>
+		</div>
+	</div>
+</div>
