@@ -1,6 +1,6 @@
 # What is your opinion
 
-__What is your opinion__ est pune lateforme de modération collaborative. 
+__What is your opinion__ est une plateforme de modération collaborative. 
 
 
 Vous pouvez insérer un système de commentaire sur votre site avec What is your opinion.
@@ -53,7 +53,6 @@ https://cloudssh.developers.google.com/projects/certifiid/zones/us-central1-a/in
 - Dans ../your-opinion : 
 - la première fois seulement : git clone https://github.com/David-geffroy/your-opinion.git
 - git pull https://github.com/David-geffroy/your-opinion.git
-
 - Verifier les processus : ps -edf | grep node
 - Supprimer les processus : sudo kill -9 numeroprocessus
 - Relancer : chmod +x start.sh puis sudo ./start.sh
