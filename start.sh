@@ -2,4 +2,4 @@
 PROD=prod
 export PROD
 pkill -9 node
-nohup node /opt/site/certifiid/frontal/app &
+nohup node /opt/site/your-opinion/frontal/app &
