@@ -38,7 +38,7 @@ Le site tourne sur l'adresse suivante : http://local.what-is-your-opinion.com
 ## Arborescence
 
 ```
-certifiid
+
   ├── frontal               - Application amorce qui route vers le site ou la frame
   |
   └── site                  - Le site [What Is Your Opinion](http://local.what-is-your-opinion.com)
@@ -55,7 +55,7 @@ Auteur :
 -	Quelqu'un like mon commentaire              +0pt
 -	Quelqu'un dislike mon commentaire           -0pt
 
-Modération :
+Modérateur lecteur :
 -	Un vote validé                              +1pt
 -	Un vote invalidé                            -2pts
 -	Un mauvais signalement                      -3pts
