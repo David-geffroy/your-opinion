@@ -46,6 +46,18 @@ Le site tourne sur l'adresse suivante : http://local.what-is-your-opinion.com
   └── site                  - Le site [What Is Your Opinion](http://local.what-is-your-opinion.com)
 ```
 
+## Mettre en ligne
+
+https://cloudssh.developers.google.com/projects/certifiid/zones/us-central1-a/instances/mean-v4ic?authuser=0&hl=fr&projectNumber=1040047689594
+
+- Dans ../your-opinion : 
+
+git pull https://github.com/David-geffroy/your-opinion.git
+
+- Verifier les processus : ps -edf | grep node
+- Supprimer les processus : sudo kill -9 941
+- Relancer : chmod +x start.sh puis sudo ./start.sh
+
 ## Calcul des points de crédibilité
 Auteur :
 -	Un commentaire publié                       +1pt
