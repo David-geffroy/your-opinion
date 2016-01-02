@@ -1,6 +1,7 @@
 # What is your opinion
 
-__What is your opinion__ est _The_ future plateforme de modération collaborative. 
+__What is your opinion__ est pune lateforme de modération collaborative. 
+...
 Vous pouvez insérer un système de commentaire sur votre site avec What is your opinion.
 Les lecteurs peuvent participer à la modération. 
 Le commentaire à modérer est proposé aléatoirement au lecteur.
