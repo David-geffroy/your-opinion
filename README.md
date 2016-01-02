@@ -1,6 +1,12 @@
-# Certif IID
+# What is your opinion
 
-__Certif-IID__ est _The_ future plateforme de modération collaborative.
+__What is your opinion__ est _The_ future plateforme de modération collaborative. 
+Vous pouvez insérer un système de commentaire sur votre site avec What is your opinion.
+Les lecteurs peuvent participer à la modération. 
+Le commentaire à modérer est proposé aléatoirement au lecteur.
+Puis le commentaire est validé ou invalidé aléatoirement par un autre auteur.
+Si une personne valide un commentaire puis ce commentaire est invalidé par les autres auteurs, elle perd des points.
+Si un commentaire est validé par deux ou trois personnes, elle gagne des points.
 
 ## Installation (Windows)
 
